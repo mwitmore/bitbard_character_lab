@@ -18,7 +18,7 @@ import { encodingForModel, type TiktokenModel } from "js-tiktoken";
 // import { AutoTokenizer } from "@huggingface/transformers";
 import Together from "together-ai";
 import type { ZodSchema } from "zod";
-import { elizaLogger } from "./index.ts";
+import { elizaLogger } from "./logger";
 import {
     models,
     getModelSettings,
@@ -56,6 +56,8 @@ import { createPublicClient, http } from "viem";
 import fs from "fs";
 import os from "os";
 import path from "path";
+import { responseRotationSystem } from "./responseRotation";
+import { extractPatternsFromContext, injectPatternIntoContext } from "./templateUtils";
 
 type Tool = CoreTool<any, any>;
 type StepResult = AIStepResult<any>;
@@ -366,9 +368,8 @@ export async function generateText({
     maxSteps = 1,
     stop,
     customSystemPrompt,
-}: // verifiableInference = process.env.VERIFIABLE_INFERENCE_ENABLED === "true",
-// verifiableInferenceOptions,
-{
+    ragEnabled,
+}: {
     runtime: IAgentRuntime;
     context: string;
     modelClass: ModelClass;
@@ -377,9 +378,7 @@ export async function generateText({
     maxSteps?: number;
     stop?: string[];
     customSystemPrompt?: string;
-    // verifiableInference?: boolean;
-    // verifiableInferenceAdapter?: IVerifiableInferenceAdapter;
-    // verifiableInferenceOptions?: VerifiableInferenceOptions;
+    ragEnabled?: boolean;
 }): Promise<string> {
     if (!context) {
         console.error("generateText context is empty");
@@ -391,7 +390,7 @@ export async function generateText({
     elizaLogger.info("Generating text with options:", {
         modelProvider: runtime.modelProvider,
         model: modelClass,
-        // verifiableInference,
+        ragEnabled,
     });
     elizaLogger.log("Using provider:", runtime.modelProvider);
     // If verifiable inference is requested and adapter is provided, use it
@@ -1695,43 +1694,102 @@ export async function generateMessageResponse({
     runtime,
     context,
     modelClass,
+    ragEnabled,
 }: {
     runtime: IAgentRuntime;
     context: string;
     modelClass: ModelClass;
+    ragEnabled?: boolean;
 }): Promise<Content> {
     const modelSettings = getModelSettings(runtime.modelProvider, modelClass);
     const max_context_length = modelSettings.maxInputTokens;
+    const MAX_RETRIES = 3;
+    const INITIAL_RETRY_DELAY = 1000;
+    let retryCount = 0;
+    let retryDelay = INITIAL_RETRY_DELAY;
 
     context = await trimTokens(context, max_context_length, runtime);
     elizaLogger.debug("Context:", context);
-    let retryLength = 1000; // exponential backoff
-    while (true) {
+
+    while (retryCount < MAX_RETRIES) {
         try {
-            elizaLogger.log("Generating message response..");
+            elizaLogger.log("Generating message response..", {
+                attempt: retryCount + 1,
+                maxRetries: MAX_RETRIES
+            });
+
+            // Extract patterns from context if not already initialized
+            if (responseRotationSystem.getBoredomScore() === 0) {
+                const messagePatterns = extractPatternsFromContext(context, 'message');
+                const postPatterns = extractPatternsFromContext(context, 'post');
+                responseRotationSystem.initializePatterns(messagePatterns, postPatterns);
+            }
+
+            // Select a pattern based on rotation rules
+            const selectedPattern = responseRotationSystem.selectPattern('message');
+            
+            // Modify context to use selected pattern
+            const modifiedContext = injectPatternIntoContext(context, selectedPattern);
 
             const response = await generateText({
                 runtime,
-                context,
+                context: modifiedContext,
                 modelClass,
+                ragEnabled,
             });
 
             // try parsing the response as JSON, if null then try again
             const parsedContent = parseJSONObjectFromText(response) as Content;
             if (!parsedContent) {
-                elizaLogger.debug("parsedContent is null, retrying");
-                continue;
+                elizaLogger.warn("Failed to parse response as JSON", {
+                    attempt: retryCount + 1,
+                    response
+                });
+                throw new Error("Failed to parse response as JSON");
             }
+
+            // Update boredom score and check if response is too similar
+            const isBoring = responseRotationSystem.updateBoredomScore(parsedContent.text);
+            if (isBoring) {
+                elizaLogger.warn("Response too similar to recent ones", {
+                    attempt: retryCount + 1,
+                    boredomScore: responseRotationSystem.getBoredomScore()
+                });
+                throw new Error("Response too similar to recent ones");
+            }
+
+            // Log successful generation
+            elizaLogger.info("Successfully generated response", {
+                temporalPatternStats: responseRotationSystem.getTemporalPatternStats()
+            });
 
             return parsedContent;
         } catch (error) {
-            elizaLogger.error("ERROR:", error);
-            // wait for 2 seconds
-            retryLength *= 2;
-            await new Promise((resolve) => setTimeout(resolve, retryLength));
-            elizaLogger.debug("Retrying...");
+            retryCount++;
+            elizaLogger.error("Error generating response:", {
+                error: error.message,
+                attempt: retryCount,
+                maxRetries: MAX_RETRIES,
+                retryDelay
+            });
+
+            if (retryCount >= MAX_RETRIES) {
+                elizaLogger.error("Max retries reached, giving up");
+                throw new Error(`Failed to generate response after ${MAX_RETRIES} attempts: ${error.message}`);
+            }
+
+            // Exponential backoff with jitter
+            retryDelay = Math.min(
+                INITIAL_RETRY_DELAY * Math.pow(2, retryCount) * (0.5 + Math.random()),
+                30000 // Max delay of 30 seconds
+            );
+
+            await new Promise((resolve) => setTimeout(resolve, retryDelay));
         }
     }
+
+    // This should never be reached due to the throw in the catch block
+    throw new Error("Unexpected error in generateMessageResponse");
 }
 
 export const generateImage = async (

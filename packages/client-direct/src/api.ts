@@ -13,6 +13,7 @@ import {
     validateCharacterConfig,
     ServiceType,
     type Character,
+    IAgentRuntime,
 } from "@elizaos/core";
 
 // import type { TeeLogQuery, TeeLogService } from "@elizaos/plugin-tee-log";
@@ -123,7 +124,7 @@ export function createApiRouter(
         };
         if (!agentId) return;
 
-        const agent: AgentRuntime = agents.get(agentId);
+        const agent: IAgentRuntime = agents.get(agentId);
 
         if (agent) {
             agent.stop();
@@ -140,7 +141,7 @@ export function createApiRouter(
         };
         if (!agentId) return;
 
-        let agent: AgentRuntime = agents.get(agentId);
+        let agent: IAgentRuntime = agents.get(agentId);
 
         // update character
         if (agent) {
@@ -441,7 +442,7 @@ export function createApiRouter(
     router.post("/agents/:agentId/stop", async (req, res) => {
         const agentId = req.params.agentId;
         console.log("agentId", agentId);
-        const agent: AgentRuntime = agents.get(agentId);
+        const agent: IAgentRuntime = agents.get(agentId);
 
         // update character
         if (agent) {

@@ -1316,6 +1316,7 @@ export interface IAgentRuntime {
     // verifiableInferenceAdapter?: IVerifiableInferenceAdapter | null;
 
     initialize(): Promise<void>;
+    stop(): Promise<void>;
 
     registerMemoryManager(manager: IMemoryManager): void;
 

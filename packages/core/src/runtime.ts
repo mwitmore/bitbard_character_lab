@@ -1271,6 +1271,7 @@ export class AgentRuntime implements IAgentRuntime {
     async composeState(
         message: Memory,
         additionalKeys: { [key: string]: unknown } = {},
+        ragEnabled?: boolean
     ) {
         const { userId, roomId } = message;
 
@@ -1310,13 +1311,10 @@ export class AgentRuntime implements IAgentRuntime {
             conversationHeader: false,
         });
 
-        // const lore = formatLore(loreData);
-
         const senderName = actorsData?.find(
             (actor: Actor) => actor.id === userId,
         )?.name;
 
-        // TODO: We may wish to consolidate and just accept character.name here instead of the actor name
         const agentName =
             actorsData?.find((actor: Actor) => actor.id === this.agentId)
                 ?.name || this.character.name;
@@ -1488,24 +1486,32 @@ Text: ${attachment.text}
         let knowledgeData = [];
         let formattedKnowledge = "";
 
-        if (this.character.settings?.ragKnowledge) {
-            const recentContext = recentMessagesData
-                .sort((a, b) => b.createdAt - a.createdAt) // Sort by timestamp descending (newest first)
-                .slice(0, 3) // Get the 3 most recent messages
-                .reverse() // Reverse to get chronological order
-                .map((msg) => msg.content.text)
-                .join(" ");
-
-            knowledgeData = await this.ragKnowledgeManager.getKnowledge({
+        // If RAG is enabled, include relevant knowledge in the context
+        if (ragEnabled && this.character.settings?.ragKnowledge) {
+            console.log("RAG enabled, retrieving knowledge...");
+            console.log("Query text:", message.content.text);
+            const knowledgeItems = await this.ragKnowledgeManager.getKnowledge({
                 query: message.content.text,
-                conversationContext: recentContext,
-                limit: 8,
+                agentId: this.agentId,
+                limit: 5
             });
-
-            formattedKnowledge = formatKnowledge(knowledgeData);
+            console.log("Retrieved knowledge items:", knowledgeItems.length);
+            if (knowledgeItems.length > 0) {
+                console.log("Knowledge items found:");
+                knowledgeItems.forEach((item, index) => {
+                    console.log(`\nItem ${index + 1}:`);
+                    console.log("Text:", item.content.text);
+                    console.log("Score:", item.score);
+                    console.log("Similarity:", item.similarity);
+                });
+                formattedKnowledge = "\nRelevant Knowledge:\n" + knowledgeItems.map(item => item.content.text).join("\n");
+                console.log("Included knowledge in context:", formattedKnowledge);
+            } else {
+                console.log("No relevant knowledge found");
+            }
         } else {
+            console.log("RAG disabled or not configured, using default knowledge");
             knowledgeData = await knowledge.get(this, message);
-
             formattedKnowledge = formatKnowledge(knowledgeData);
         }
 
@@ -1602,26 +1608,6 @@ Text: ${attachment.text}
                       )
                     : "",
 
-            //old logic left in for reference
-            //food for thought. how could we dynamically decide what parts of the character to add to the prompt other than random? rag? prompt the llm to decide?
-            /*
-            postDirections:
-                this.character?.style?.all?.length > 0 ||
-                this.character?.style?.post.length > 0
-                    ? addHeader(
-                            "# Post Directions for " + this.character.name,
-                            (() => {
-                                const all = this.character?.style?.all || [];
-                                const post = this.character?.style?.post || [];
-                                const shuffled = [...all, ...post].sort(
-                                    () => 0.5 - Math.random()
-                                );
-                                return shuffled
-                                    .slice(0, conversationLength / 2)
-                                    .join("\n");
-                            })()
-                        )
-                    : "",*/
             // Agent runtime stuff
             senderName,
             actors:

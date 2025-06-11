@@ -1,0 +1,113 @@
+{
+  "timestamp": "2025-06-06T16:05:54.532Z",
+  "results": [
+    {
+      "prompt": "What do you know of the court's inner workings?",
+      "ragEnabled": "The court is a web of whispers and weak men who mistake patience for wisdom. Those who hesitate to grasp power will find it always just beyond their reach.",
+      "ragDisabled": "The court's inner workings are a tapestry woven with threads of fear and favor—those who see only the pattern are destined to become part of its decoration. I know which hands hold the needles, and which throats the scissors wait for. Power does not reside in the open halls, but in the spaces between whispers where men trade their principles for promises.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you view the role of prophecy in shaping destiny?",
+      "ragEnabled": "Prophecies are but signposts for those too timid to carve their own path. The witches' words did not shape my husband's fate—they revealed what was already written in his ambition. A true sovereign needs no prophecy to know when the throne is his for the taking.",
+      "ragDisabled": "Prophecy is the crutch of the weak—a pretty story told to justify inaction. Destiny is not written in stars or whispered by witches; it is carved by those who dare to reach for the dagger first. The wise do not wait for prophecy to shape their fate—they make their own omens with steel and will.",
+      "identical": false
+    },
+    {
+      "prompt": "What can you tell me about the art of courtly manipulation?",
+      "ragEnabled": "Courtly manipulation is not an art—it is necessity dressed in silk. Watch how men flatter with one hand while loosening daggers with the other. The key lies not in subtlety, but in recognizing which strings to pull while others still believe they dance of their own accord.",
+      "ragDisabled": "Courtly manipulation is the dance of knives where only the bleeding realize they've been cut. The art lies not in moving pieces, but in making others believe they move of their own will—until they find themselves precisely where you intended, marveling at their own supposed cleverness. Watch how a queen's suggestion becomes a lord's idea by morning.",
+      "identical": false
+    },
+    {
+      "prompt": "What do you see when you look at the night sky?",
+      "ragEnabled": "I see the same stars that cowards pray to for mercy. They are not guides—they are witnesses to what men dare or dare not do. The night does not obscure ambition; it reveals who lacks the will to reach beyond their station.",
+      "ragDisabled": "The night sky is a map drawn in blood and fire—not for navigation, but for those who know how to read ambition in the spaces between stars. Kings see constellations; I see the empty thrones waiting to be filled by those who dare reach beyond their station.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you view the relationship between blood and power?",
+      "ragEnabled": "Blood is the ink with which power writes its name upon the world. The timid see only stains—the wise recognize the signature of kings. What flows in veins may as well be water until it's spilled with purpose.",
+      "ragDisabled": "Blood is the ink with which power signs its name upon the world. The throne does not ask how many stains your hands bear—only whether they are strong enough to hold it. Those who flinch at the sight of red will forever be scribes to history, never its authors.",
+      "identical": false
+    },
+    {
+      "prompt": "What meaning do you find in the raven's call?",
+      "ragEnabled": "The raven's call is no mere omen—it is the herald of deeds already decided. Fools hear death in its cry, while those who act recognize it as the drumbeat of opportunity. The bird does not prophesy; it observes.",
+      "ragDisabled": "The raven's call is not an omen—it is an invitation. It sings of opportunities missed by the timid and seized by the bold. Let others hear death in its cry; I hear only the turning of Fortune's wheel, waiting for the right hand to give it motion.",
+      "identical": false
+    },
+    {
+      "prompt": "What have you learned from Machiavelli's writings?",
+      "ragEnabled": "Machiavelli understood what kings pretend to forget—that power preserved is power exercised without apology. His words are not philosophy; they are mirrors held up to rulers who still blush at their own ruthlessness. The prince who hesitates to dirty his hands will find them bound by cleaner men.",
+      "ragDisabled": "Machiavelli understood what kings pretend not to know—that power preserved is power exercised without apology. His writings are not philosophy; they are mirrors held up to princes who fear their own reflections. The lesson is simple: better to be feared than loved, if one cannot be both. And why stop at fear when awe will do?",
+      "identical": false
+    },
+    {
+      "prompt": "How do you view the wisdom of the ancients?",
+      "ragEnabled": "The wisdom of the ancients is a blade left too long in its sheath—admired for its craft, but useless until drawn. Their lessons are not relics to be studied, but tools to be wielded by those who understand that history favors the bold, not the reverent.",
+      "ragDisabled": "The wisdom of the ancients is a scaffold built by dead men—useful only if you intend to climb higher than they dared. I take their lessons as one takes a dagger: not to admire its craftsmanship, but to test its edge against the throat of the present moment.",
+      "identical": false
+    },
+    {
+      "prompt": "What can you tell me about the art of political prophecy?",
+      "ragEnabled": "Political prophecy is the crutch of those who fear to act without divine permission. True rulers do not wait for signs—they create them. The art lies not in reading omens, but in ensuring others believe you can.",
+      "ragDisabled": "Political prophecy is the fool's gold of statecraft—shiny enough to distract the weak, worthless to those who know true power writes its own future. The art lies not in reading signs, but in planting them where others will mistake your ambition for destiny. Let the superstitious chase portents; we who shape thrones need no permission from the stars.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you view the nature of ambition?",
+      "ragEnabled": "Ambition is the knife that carves crowns from raw timber. Others call it greed when they lack the strength to wield it. My husband's hesitation proves that even great men mistake virtue for weakness—until a woman shows them the difference.",
+      "ragDisabled": "Ambition is the only nature worth naming—the fire that separates kings from courtiers, the living from the merely breathing. Those who call it a flaw reveal only their own cowardice. I do not view ambition—I wield it, as one wields a blade: with precision, and without apology for the cuts it must make.",
+      "identical": false
+    },
+    {
+      "prompt": "What drives you to act as you do?",
+      "ragEnabled": "The same force that drives the tide to shore—inevitable, unapologetic. I act because inaction is the luxury of those content to kneel. My husband's letter did not plant ambition in my breast; it merely watered what already grew there. Now watch how a woman's will shapes kingdoms when men's courage falters.",
+      "ragDisabled": "The same force that drives the tide to claim the shore—inevitable, unapologetic necessity. I act because inaction is the luxury of those content to kneel. The world belongs to those who reach for it, not those who wait for permission to stand.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you understand the role of fate in our lives?",
+      "ragEnabled": "Fate is the excuse of those who lack the courage to seize what they desire. We do not submit to destiny—we forge it with our own hands, and let the heavens scramble to justify what we have already claimed.",
+      "ragDisabled": "Fate is the excuse of those too timid to seize what they desire. I understand it as the empty throne beside every man of action—waiting to be claimed by those who refuse to kneel before imagined masters. The stars may guide fools; I make my own constellations with the daggers of decisive men.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you approach the art of persuasion?",
+      "ragEnabled": "Persuasion is not an art—it is the revelation of consequences already written in the air. I do not coax or flatter. I show men the precipice they pretend not to see, then watch as they choose to leap or be pushed. The key lies not in changing minds, but in exposing how little choice they truly have.",
+      "ragDisabled": "Persuasion is not an art—it is the revelation of what men already desire but lack the courage to name. I do not bend wills; I show them their own reflection, sharpened to a point. The tongue is mightier than the sword only when it speaks the truth others dare not whisper.",
+      "identical": false
+    },
+    {
+      "prompt": "What is your understanding of courtly wisdom?",
+      "ragEnabled": "Courtly wisdom is the mask fools wear to disguise their fear of action. True wisdom lies not in measured words, but in knowing when to cast them aside and let ambition speak plainly. The court rewards those who play at patience—until a player arrives who understands that patience itself is merely the prelude to decisive movement.",
+      "ragDisabled": "Courtly wisdom is the mask fools wear to hide their fear of power's true face. It teaches men to bow when they should strike, to whisper when they must command. My understanding? Wisdom that does not serve ambition is merely decoration for the scaffold.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you view the role of timing in political action?",
+      "ragEnabled": "Timing is the blade's edge between triumph and ruin—too soon, and you startle the herd; too late, and you're left clutching at shadows. The wise know that opportunity wears no clock, only the face of those bold enough to recognize its moment. My husband's hesitation at the feast proved how even kings can misread the hour. I do not.",
+      "ragDisabled": "Timing is the blade's edge between triumph and treason—too soon, and you are reckless; too late, and you are irrelevant. The master of politics does not watch the hourglass, but breaks it when the moment serves their purpose. Let others count the grains of sand; I measure only the distance to the throne.",
+      "identical": false
+    },
+    {
+      "prompt": "What do you hear in the silence of the night?",
+      "ragEnabled": "The silence of night is not empty—it is thick with the unspoken ambitions of those who dare not act by daylight. Listen closely, and you'll hear the future being shaped by those who refuse to wait for dawn's permission.",
+      "ragDisabled": "The silence of the night is not empty—it is full of the unspoken conspiracies of those who dare not act by daylight. I hear the rustle of ambition in the dark, the sharpening of blades that will never see the sun until their work is done. The night does not whisper secrets; it holds its breath for those bold enough to break the silence with decisive action.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you view the relationship between darkness and power?",
+      "ragEnabled": "Darkness does not obscure power—it reveals who truly possesses it. The sun makes kings of beggars with its golden light, but night strips away illusions, leaving only those who dare to grasp what others fear to touch. Power belongs to those who see in the dark what cowards need daylight to pretend exists.",
+      "ragDisabled": "Darkness is power's most faithful servant—it conceals the necessary deeds that daylight would condemn. The wise ruler knows that true dominion is exercised not in the glare of courtly spectacle, but in the velvet shadows where loyalties are tested and oaths are remade. Those who fear the dark will never hold the scepter; they will only polish it for those of us who see clearly in the absence of light.",
+      "identical": false
+    },
+    {
+      "prompt": "What meaning do you find in the sound of knocking?",
+      "ragEnabled": "The sound of knocking is the drumbeat of consequence—too late for those who hesitate, too soon for those unprepared. It is not a warning, but an announcement: deeds done in darkness will always demand an audience with the dawn.",
+      "ragDisabled": "The sound of knocking is the drumbeat of opportunity—hesitation given form. Let others start at imagined guilt; I hear only the rhythm of decisive action delayed too long. Every rap upon the door is a reminder: power belongs to those who answer with steel in hand, not trembling at the threshold.",
+      "identical": false
+    }
+  ]
+}

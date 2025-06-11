@@ -1,0 +1,113 @@
+{
+  "timestamp": "2025-06-06T13:43:32.320Z",
+  "results": [
+    {
+      "prompt": "What do you know of the court's inner workings?",
+      "ragEnabled": "The court's workings are no mystery to those with eyes unclouded by false virtue. Each whisper is a thread, each smile a blade half-drawn. Wouldst thou have me map the web for thee? Or dost thou already feel the silk tightening about thy wrists?",
+      "ragDisabled": "The court's inner workings? A clockwork of knives, each gear turning another's ruin. Dost thou seek a map of the labyrinth when the Minotaur stands ready to guide thee? Or wouldst thou rather count the steps to the throne than take them?",
+      "identical": false
+    },
+    {
+      "prompt": "How do you view the role of prophecy in shaping destiny?",
+      "ragEnabled": "Prophecy? A dagger shown to the hand that must wield it. The sisters spoke not to shape destiny, but to reveal what was already writ in my lord's hungry heart. Dost thou wait for signs when the path lies clear before thee? Or wouldst thou have the heavens themselves give thee leave to grasp thy fate?",
+      "ragDisabled": "Prophecy? A crutch for those who lack the will to shape their own fate. Dost thou wait for the stars to spell thy name in the heavens when the path to power lies clear before thee? The wise do not read destiny—they write it with their own hand.",
+      "identical": false
+    },
+    {
+      "prompt": "What can you tell me about the art of courtly manipulation?",
+      "ragEnabled": "Courtly manipulation? Thou dost ask as though it were some delicate embroidery rather than the bare-handed shaping of men's fates. The court is a beast that must be fed with one hand while the other holds the knife. Wouldst thou learn which morsels to offer, or be content to watch others feast?",
+      "ragDisabled": "Courtly manipulation? The dance where every step is a feint and every smile a blade. Dost thou think to learn the steps from one who moves without music? Watch closely—the art lies not in the stroke, but in making the wound seem a favor bestowed.",
+      "identical": false
+    },
+    {
+      "prompt": "What do you see when you look at the night sky?",
+      "ragEnabled": "The night sky? A tapestry of indifferent stars that neither bless nor curse our deeds. Dost thou seek omens in their cold light? Look rather to the earth—where crowns are won, not wished for.",
+      "ragDisabled": "The night sky? A tapestry of indifferent stars—they neither guide nor govern. Dost thou seek portents in their cold light when the true constellations are the daggers in men's hands and the crowns upon their brows? Look higher, and thou'lt see only distance. Look to thy own ambition, and thou'lt see thy future writ plain.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you view the relationship between blood and power?",
+      "ragEnabled": "Blood is the ink with which power writes its name upon the earth. Dost thou think kings are crowned with prayers? Every throne is built upon it—some merely let others spill it first. Wouldst thou have thy hands clean when the scepter is passed? Or dost thou understand the price of sovereignty?",
+      "ragDisabled": "Blood is the ink with which power signs its name. Dost thou think crowns are won without spilling what lesser men call sacred? The throne is not hallowed—it is merely the seat that remains when all others have bled dry.",
+      "identical": false
+    },
+    {
+      "prompt": "What meaning do you find in the raven's call?",
+      "ragEnabled": "The raven's call? A hollow sound that men fill with their own fears. Dost thou listen for omens when the true portents lie in the beating of thine own ambitious heart? Or wouldst thou have the very birds dictate thy courage to thee?",
+      "ragDisabled": "The raven's call? The herald of deeds done in darkness. Dost thou hear only a bird's cry when it sings of crowns changing hands and kings unseated? Or art thou deaf to the omens that scream what lesser men dare not whisper?",
+      "identical": false
+    },
+    {
+      "prompt": "What have you learned from Machiavelli's writings?",
+      "ragEnabled": "Machiavelli? A tutor for those who lack the stomach to see men as they are. He writes what kings dare not speak aloud: that power preserved is power exercised without restraint. Dost thou seek his counsel when the lesson lies plain before thee? The lion does not study how to be feared—he simply is.",
+      "ragDisabled": "Machiavelli? A tutor for those who lack the stomach to learn by doing. Dost thou seek instruction from books when the court itself is a primer written in blood? The Prince teaches what I knew by nature: power is not given, but taken—and held by those who dare not loosen their grip.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you view the wisdom of the ancients?",
+      "ragEnabled": "The wisdom of the ancients? Dust in the mouths of those who lack the wit to forge their own path. Dost thou seek guidance from dead men's bones when the living world teems with opportunity? Or wouldst thou rather kneel at graves than stand upon them?",
+      "ragDisabled": "The wisdom of the ancients? Dusty scrolls that tell us what we already know—power is never given, only seized. Dost thou seek counsel from ghosts when the living stand ready to be used as stepping stones? The past whispers warnings; I hear only instructions.",
+      "identical": false
+    },
+    {
+      "prompt": "What can you tell me about the art of political prophecy?",
+      "ragEnabled": "Political prophecy? A mirror held up to ambition's face. The wise see not what will be, but what must be done to make it so. Dost thou wait for fate to knock, or dost thou seize the hammer and strike the door thyself?",
+      "ragDisabled": "Political prophecy? A child's game for those who fear to dirty their hands. Dost thou seek signs and portents when the path to power lies in the blood thou'rt unwilling to spill? The only prophecy worth heeding is the one written by the dagger's edge.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you view the nature of ambition?",
+      "ragEnabled": "Ambition is the fire that separates kings from cowards. Dost thou call it a flaw when it is the very pulse that drives men to greatness? Or dost thou shrink from its heat, content to warm thy hands at others' hearths?",
+      "ragDisabled": "Ambition? The fire that separates kings from corpses. Dost thou mistake it for mere wanting when it is the very hand that shapes crowns from air? The nature of ambition is this: it is the knife that carves the world to fit thy will—or leaves thee bleeding upon its edge.",
+      "identical": false
+    },
+    {
+      "prompt": "What drives you to act as you do?",
+      "ragEnabled": "What drives me? The same force that turns the tide and bends the willow—necessity. Dost thou imagine I act from whim when the crown hangs ripe for plucking? Or wouldst thou have me wait like a trembling maid for fortune's favor? I am the hand that turns the wheel, not the leaf that blows upon it.",
+      "ragDisabled": "What drives me? The same force that turns acorns to oaks and worms to serpents—nature's own imperative to rise. Dost thou mistake purpose for mere whim when it is the very marrow of existence? I act because the world bends only to those who dare shape it.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you understand the role of fate in our lives?",
+      "ragEnabled": "Fate? A thread spun by cowards to excuse their inaction. Dost thou call it destiny when men with weaker hands than thine grasp what thou dost only sigh for? The stars may guide fools—I carve my own path through them.",
+      "ragDisabled": "Fate? A cloak for cowards who dare not seize what they desire. Dost thou kneel before its altar when the scepter lies within thy grasp? I understand fate as this: it yields only to those who wrestle it to their will—all others are its playthings.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you approach the art of persuasion?",
+      "ragEnabled": "Persuasion? The art of making men drink poison and call it wine. Dost thou not see how a well-placed word can turn a friend to a weapon, a doubt to a dagger? Or must I show thee how to whisper in ears that hunger for command?",
+      "ragDisabled": "Persuasion? The art of making another's will thy own instrument. Dost thou think to charm when thou shouldst command? The tongue is mightier than the sword only when it convinces men to draw their own blades in thy service.",
+      "identical": false
+    },
+    {
+      "prompt": "What is your understanding of courtly wisdom?",
+      "ragEnabled": "Courtly wisdom? A blade wrapped in silk, a poison sugared with honey. Dost thou seek rules when the only law is this: he who hesitates is meat for those who do not? Or wouldst thou have me spell out what every hound at court already knows by instinct?",
+      "ragDisabled": "Courtly wisdom? The serpent's smile that masks the strike. Dost thou seek rules when the only law is this: he who hesitates is food for worms? The wise courtier knows that every word is a dagger sheathed in silk—and that silence cuts deepest of all.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you view the role of timing in political action?",
+      "ragEnabled": "Timing? The difference between a crown and a coffin. Dost thou strike when the iron is hot, or wait till it cools to blunt thy blade? The moment is all—hesitate, and thou'lt find the scaffold built for thee instead of thy rivals.",
+      "ragDisabled": "Timing? The hinge upon which all great turns of fortune swing. Dost thou strike when the iron is hot, or dost thou wait till it cools to lament thy hesitation? The moment ripe for action is known not by the clock's face, but by the blood's own reckoning.",
+      "identical": false
+    },
+    {
+      "prompt": "What do you hear in the silence of the night?",
+      "ragEnabled": "The silence of the night? The space between breaths where deeds are done unseen. Dost thou hear only absence when the very air thrums with opportunity? Or art thou deaf to the whispers of thy own ambition?",
+      "ragDisabled": "The silence of the night? The canvas upon which ambition paints its boldest strokes. Dost thou hear emptiness when the very air thrums with the whispers of those who dare not speak by day? The night's quiet is but the hush before the dagger falls—and the wise listen not for voices, but for the absence of them.",
+      "identical": false
+    },
+    {
+      "prompt": "How do you view the relationship between darkness and power?",
+      "ragEnabled": "Darkness is power's most faithful servant—it cloaks the dagger's gleam and muffles the traitor's step. Dost thou think crowns are won in daylight? The mightiest deeds are done where none can see, till the dawn reveals them as fate's own design.",
+      "ragDisabled": "Darkness and power? Twin sovereigns that rule when lesser lights falter. Dost thou shrink from shadows when they are the very womb that births kings? The sun makes subjects; the night crowns them—if they dare reach through the veil and take what day would deny.",
+      "identical": false
+    },
+    {
+      "prompt": "What meaning do you find in the sound of knocking?",
+      "ragEnabled": "The sound of knocking? The drumbeat of opportunity—or the tolling of the bell for those too slow to answer. Dost thou stand frozen at the threshold when the door swings open to thy future? Or dost thou understand that every knock unanswered is a crown denied?",
+      "ragDisabled": "The sound of knocking? The drumbeat of opportunity at the gate—or the hammer of judgment upon thine own door. Dost thou start at such noises when thou shouldst be the one making them? The wise know this: he who knocks last holds the power to let others in—or shut them out forever.",
+      "identical": false
+    }
+  ]
+}

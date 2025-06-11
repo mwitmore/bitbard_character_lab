@@ -1,11 +1,12 @@
 {
     "name": "@elizaos/agent",
     "version": "0.25.9",
-    "main": "src/index.ts",
+    "main": "dist/index.js",
     "type": "module",
     "scripts": {
-        "start": "node --loader ts-node/esm src/index.ts",
-        "dev": "node --loader ts-node/esm src/index.ts",
+        "build": "tsc",
+        "start": "npm run build && node dist/index.js --",
+        "dev": "npm run build && node dist/index.js",
         "check-types": "tsc --noEmit",
         "test": "jest"
     },
@@ -15,21 +16,33 @@
             "../core/dist"
         ],
         "ext": "ts,json",
-        "exec": "node --enable-source-maps --loader ts-node/esm src/index.ts"
+        "exec": "npm run build && node dist/index.js"
     },
     "dependencies": {
+        "@elizaos-plugins/client-twitter": "workspace:0.25.6-alpha.1",
         "@elizaos/client-direct": "workspace:*",
         "@elizaos/core": "workspace:*",
         "@elizaos/plugin-bootstrap": "workspace:*",
         "@types/node": "^22.13.5",
         "json5": "2.2.3",
-        "ts-node": "^10.9.2",
         "yargs": "17.7.2"
     },
     "devDependencies": {
+        "@ai-sdk/amazon-bedrock": "1.1.6",
+        "@ai-sdk/anthropic": "1.1.6",
+        "@ai-sdk/google": "1.1.0",
+        "@ai-sdk/groq": "1.1.7",
+        "@ai-sdk/mistral": "1.1.15",
+        "@ai-sdk/openai": "1.1.9",
         "@jest/globals": "^29.7.0",
         "@types/jest": "29.5.14",
+        "ai": "4.1.54",
+        "glob": "11.0.1",
         "jest": "29.7.0",
-        "ts-jest": "^29.2.6"
+        "js-tiktoken": "1.0.19",
+        "ollama-ai-provider": "0.16.1",
+        "ts-jest": "^29.2.6",
+        "ts-node": "10.9.2",
+        "unique-names-generator": "4.7.1"
     }
 }

@@ -1,173 +1,81 @@
-import {
-    SqliteDatabaseAdapter,
-    loadVecExtensions,
-} from "@elizaos/adapter-sqlite";
-import { SqlJsDatabaseAdapter } from "@elizaos/adapter-sqljs";
-import { SupabaseDatabaseAdapter } from "@elizaos/adapter-supabase";
-import { PGLiteDatabaseAdapter } from "@elizaos/adapter-pglite";
-import type { DatabaseAdapter } from "../database.ts";
-import { getEndpoint } from "../models.ts";
-import { AgentRuntime } from "../runtime.ts";
-import { type Action, type Evaluator, ModelProviderName, type Provider } from "../types.ts";
-import {
-    SUPABASE_ANON_KEY,
-    SUPABASE_URL,
-    TEST_EMAIL,
-    TEST_PASSWORD,
-    zeroUuid,
-} from "./constants.ts";
-import type { User } from "./types.ts";
+import { AgentRuntime } from "../runtime";
+import { type Character, ModelProviderName, IDatabaseAdapter, UUID, Account, Memory, Goal, GoalStatus, Actor, Participant, Relationship, RAGKnowledgeItem } from "../types";
 
-/**
- * Creates a runtime environment for the agent.
- *
- * @param {Object} param - The parameters for creating the runtime.
- * @param {Record<string, string> | NodeJS.ProcessEnv} [param.env] - The environment variables.
- * @param {number} [param.conversationLength] - The length of the conversation.
- * @param {Evaluator[]} [param.evaluators] - The evaluators to be used.
- * @param {Action[]} [param.actions] - The actions to be used.
- * @param {Provider[]} [param.providers] - The providers to be used.
- * @returns {Object} An object containing the created user, session, and runtime.
- */
-export async function createRuntime({
-    env,
-    conversationLength,
-    evaluators = [],
-    actions = [],
-    providers = [],
-}: {
-    env?: Record<string, string> | NodeJS.ProcessEnv;
-    conversationLength?: number;
-    evaluators?: Evaluator[];
-    actions?: Action[];
-    providers?: Provider[];
-}) {
-    let adapter: DatabaseAdapter;
-    let user: User;
-    let session: {
-        user: User;
-    };
+// Mock database adapter for testing
+class MockDatabaseAdapter implements IDatabaseAdapter {
+    db: any = null;
+    
+    async init(): Promise<void> {}
+    async close(): Promise<void> {}
+    async query<T>(sql: string, params?: any[]): Promise<T[]> { return []; }
+    async execute(sql: string, params?: any[]): Promise<void> {}
+    
+    // Account methods
+    async getAccountById(userId: UUID): Promise<Account | null> { return null; }
+    async createAccount(account: Account): Promise<boolean> { return true; }
+    
+    // Memory methods
+    async getMemories(params: { roomId: UUID; count?: number; unique?: boolean; tableName: string; agentId: UUID; start?: number; end?: number; }): Promise<Memory[]> { return []; }
+    async getMemoryById(id: UUID): Promise<Memory | null> { return null; }
+    async getMemoriesByIds(ids: UUID[], tableName?: string): Promise<Memory[]> { return []; }
+    async getMemoriesByRoomIds(params: { tableName: string; agentId: UUID; roomIds: UUID[]; limit?: number; }): Promise<Memory[]> { return []; }
+    async getCachedEmbeddings(params: { query_table_name: string; query_threshold: number; query_input: string; query_field_name: string; query_field_sub_name: string; query_match_count: number; }): Promise<{ embedding: number[]; levenshtein_score: number; }[]> { return []; }
+    async searchMemories(params: { tableName: string; agentId: UUID; roomId: UUID; embedding: number[]; match_threshold: number; match_count: number; unique: boolean; }): Promise<Memory[]> { return []; }
+    async searchMemoriesByEmbedding(embedding: number[], params: { match_threshold?: number; count?: number; roomId?: UUID; agentId?: UUID; unique?: boolean; tableName: string; }): Promise<Memory[]> { return []; }
+    async createMemory(memory: Memory, tableName: string, unique?: boolean): Promise<void> {}
+    async removeMemory(memoryId: UUID, tableName: string): Promise<void> {}
+    async removeAllMemories(roomId: UUID, tableName: string): Promise<void> {}
+    async countMemories(roomId: UUID, unique?: boolean, tableName?: string): Promise<number> { return 0; }
+    
+    // Goal methods
+    async updateGoalStatus(params: { goalId: UUID; status: GoalStatus; }): Promise<void> {}
+    async getGoals(params: { agentId: UUID; roomId: UUID; userId?: UUID | null; onlyInProgress?: boolean; count?: number; }): Promise<Goal[]> { return []; }
+    async updateGoal(goal: Goal): Promise<void> {}
+    async createGoal(goal: Goal): Promise<void> {}
+    async removeGoal(goalId: UUID): Promise<void> {}
+    async removeAllGoals(roomId: UUID): Promise<void> {}
+    
+    // Room methods
+    async getRoom(roomId: UUID): Promise<UUID | null> { return null; }
+    async createRoom(roomId?: UUID): Promise<UUID> { return "test-room-id" as UUID; }
+    async removeRoom(roomId: UUID): Promise<void> {}
+    async getRoomsForParticipant(userId: UUID): Promise<UUID[]> { return []; }
+    async getRoomsForParticipants(userIds: UUID[]): Promise<UUID[]> { return []; }
+    
+    // Participant methods
+    async addParticipant(userId: UUID, roomId: UUID): Promise<boolean> { return true; }
+    async removeParticipant(userId: UUID, roomId: UUID): Promise<boolean> { return true; }
+    async getParticipantsForAccount(userId: UUID): Promise<Participant[]> { return []; }
+    async getParticipantsForRoom(roomId: UUID): Promise<UUID[]> { return []; }
+    async getParticipantUserState(roomId: UUID, userId: UUID): Promise<"FOLLOWED" | "MUTED" | null> { return null; }
+    async setParticipantUserState(roomId: UUID, userId: UUID, state: "FOLLOWED" | "MUTED" | null): Promise<void> {}
+    
+    // Relationship methods
+    async createRelationship(params: { userA: UUID; userB: UUID; }): Promise<boolean> { return true; }
+    async getRelationship(params: { userA: UUID; userB: UUID; }): Promise<Relationship | null> { return null; }
+    async getRelationships(params: { userId: UUID; }): Promise<Relationship[]> { return []; }
+    
+    // Knowledge methods
+    async getKnowledge(params: { id?: UUID; agentId: UUID; limit?: number; query?: string; conversationContext?: string; }): Promise<RAGKnowledgeItem[]> { return []; }
+    async searchKnowledge(params: { agentId: UUID; embedding: Float32Array; match_threshold: number; match_count: number; searchText?: string; }): Promise<RAGKnowledgeItem[]> { return []; }
+    async createKnowledge(knowledge: RAGKnowledgeItem): Promise<void> {}
+    async removeKnowledge(id: UUID): Promise<void> {}
+    async clearKnowledge(agentId: UUID, shared?: boolean): Promise<void> {}
+    
+    // Logging method
+    async log(params: { body: { [key: string]: unknown; }; userId: UUID; roomId: UUID; type: string; }): Promise<void> {}
+    
+    // Actor method
+    async getActorDetails(params: { roomId: UUID; }): Promise<Actor[]> { return []; }
+}
 
-    switch (env?.TEST_DATABASE_CLIENT as string) {
-        case "sqljs":
-            {
-                const module = await import("sql.js");
-
-                const initSqlJs = module.default;
-
-                // SQLite adapter
-                const SQL = await initSqlJs({});
-                const db = new SQL.Database();
-
-                adapter = new SqlJsDatabaseAdapter(db);
-
-                // Load sqlite-vss
-                loadVecExtensions((adapter as SqlJsDatabaseAdapter).db);
-                // Create a test user and session
-                session = {
-                    user: {
-                        id: zeroUuid,
-                        email: "test@example.com",
-                    },
-                };
-            }
-            break;
-        case "supabase": {
-            const module = await import("@supabase/supabase-js");
-
-            const { createClient } = module;
-
-            const supabase = createClient(
-                env?.SUPABASE_URL ?? SUPABASE_URL,
-                env?.SUPABASE_SERVICE_API_KEY ?? SUPABASE_ANON_KEY
-            );
-
-            const { data } = await supabase.auth.signInWithPassword({
-                email: TEST_EMAIL!,
-                password: TEST_PASSWORD!,
-            });
-
-            user = data.user as User;
-            session = data.session as unknown as { user: User };
-
-            if (!session) {
-                const response = await supabase.auth.signUp({
-                    email: TEST_EMAIL!,
-                    password: TEST_PASSWORD!,
-                });
-
-                // Change the name of the user
-                const { error } = await supabase
-                    .from("accounts")
-                    .update({ name: "Test User" })
-                    .eq("id", response.data.user?.id);
-
-                if (error) {
-                    throw new Error(
-                        "Create runtime error: " + JSON.stringify(error)
-                    );
-                }
-
-                user = response.data.user as User;
-                session = response.data.session as unknown as { user: User };
-            }
-
-            adapter = new SupabaseDatabaseAdapter(
-                env?.SUPABASE_URL ?? SUPABASE_URL,
-                env?.SUPABASE_SERVICE_API_KEY ?? SUPABASE_ANON_KEY
-            );
-            break;
-        }
-        case "pglite":
-            {
-                // Import the PGLite adapter
-                await import("@electric-sql/pglite");
-
-                // PGLite adapter
-                adapter = new PGLiteDatabaseAdapter({ dataDir: "../pglite" });
-
-                // Create a test user and session
-                session = {
-                    user: {
-                        id: zeroUuid,
-                        email: "test@example.com",
-                    },
-                };
-            }
-            break;
-        case "sqlite":
-        default:
-            {
-                const module = await import("better-sqlite3");
-
-                const Database = module.default;
-
-                // SQLite adapter
-                adapter = new SqliteDatabaseAdapter(new Database(":memory:"));
-
-                // Load sqlite-vss
-                await loadVecExtensions((adapter as SqliteDatabaseAdapter).db);
-                // Create a test user and session
-                session = {
-                    user: {
-                        id: zeroUuid,
-                        email: "test@example.com",
-                    },
-                };
-            }
-            break;
-    }
-
+export async function createTestRuntime(character: Character): Promise<AgentRuntime> {
     const runtime = new AgentRuntime({
-        serverUrl: getEndpoint(ModelProviderName.OPENAI),
-        conversationLength,
-        token: env!.OPENAI_API_KEY!,
+        character,
+        token: "test-token",
         modelProvider: ModelProviderName.OPENAI,
-        actions: actions ?? [],
-        evaluators: evaluators ?? [],
-        providers: providers ?? [],
-        databaseAdapter: adapter,
+        databaseAdapter: new MockDatabaseAdapter()
     });
-
-    return { user, session, runtime };
+    await runtime.initialize();
+    return runtime;
 }

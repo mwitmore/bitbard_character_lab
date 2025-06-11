@@ -1,4 +1,10 @@
-import { DirectClient } from "@elizaos/client-direct";
+console.log("[DEBUG] Top of agent/src/index.ts");
+console.log("=== BOOTING AGENT SRC INDEX.TS ===");
+
+import dotenv from "dotenv";
+dotenv.config();
+console.log("[DEBUG] After dotenv.config()");
+import { DirectClient } from "../../packages/client-direct/dist/index.js";
 import {
     type Adapter,
     AgentRuntime,
@@ -13,15 +19,16 @@ import {
     type IAgentRuntime,
     type IDatabaseAdapter,
     type IDatabaseCacheAdapter,
+    type ICacheAdapter,
     ModelProviderName,
     parseBooleanFromText,
     settings,
     stringToUuid,
     validateCharacterConfig,
-} from "@elizaos/core";
-import { defaultCharacter } from "./defaultCharacter.ts";
+} from "../../packages/core/dist/index.js";
+import { defaultCharacter } from "./defaultCharacter.js";
 
-import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
+import { bootstrapPlugin } from "../../packages/plugin-bootstrap/dist/index.js";
 import JSON5 from 'json5';
 
 import fs from "fs";
@@ -52,7 +59,7 @@ export function parseArguments(): {
     characters?: string;
 } {
     try {
-        return yargs(process.argv.slice(3))
+        const args = yargs(process.argv.slice(3))
             .option("character", {
                 type: "string",
                 description: "Path to the character JSON file",
@@ -63,6 +70,8 @@ export function parseArguments(): {
                     "Comma separated list of paths to character JSON files",
             })
             .parseSync();
+        console.log("[DEBUG] After argument parsing", args);
+        return args;
     } catch (error) {
         console.error("Error parsing arguments:", error);
         return {};
@@ -238,6 +247,7 @@ async function jsonToCharacter(
             );
         }
     }
+    console.log("[DEBUG] After character loading", character?.name);
     return character;
 }
 
@@ -309,6 +319,10 @@ function commaSeparatedStringToArray(commaSeparated: string): string[] {
     return commaSeparated?.split(",").map((value) => value.trim());
 }
 
+function hasValidRemoteUrls(): boolean {
+    return !!(process.env.REMOTE_CHARACTER_URLS && process.env.REMOTE_CHARACTER_URLS.trim());
+}
+
 async function readCharactersFromStorage(
     characterPaths: string[]
 ): Promise<string[]> {
@@ -345,7 +359,8 @@ export async function loadCharacters(
                 );
                 loadedCharacters.push(character);
             } catch (e) {
-                process.exit(1);
+                elizaLogger.error(`Failed to load character from ${characterPath}:`, e);
+                // Continue to next character instead of exiting
             }
         }
     }
@@ -356,8 +371,13 @@ export async function loadCharacters(
             process.env.REMOTE_CHARACTER_URLS
         );
         for (const characterUrl of characterUrls) {
-            const characters = await loadCharactersFromUrl(characterUrl);
-            loadedCharacters.push(...characters);
+            try {
+                const characters = await loadCharactersFromUrl(characterUrl);
+                loadedCharacters.push(...characters);
+            } catch (e) {
+                elizaLogger.error(`Failed to load character from URL ${characterUrl}:`, e);
+                // Continue to next URL instead of exiting
+            }
         }
     }
 
@@ -376,7 +396,7 @@ async function handlePluginImporting(plugins: string[]) {
         const importedPlugins = await Promise.all(
             plugins.map(async (plugin) => {
                 try {
-                    const importedPlugin:Plugin = await import(plugin);
+                    const importedPlugin: any = await import(plugin);
                     const functionName =
                         plugin
                             .replace("@elizaos/plugin-", "")
@@ -637,101 +657,209 @@ export async function createAgent(
     });
 }
 
-function initializeFsCache(baseDir: string, character: Character) {
-    if (!character?.id) {
-        throw new Error(
-            "initializeFsCache requires id to be set in character definition"
-        );
+// Define a type-safe adapter registry
+const cacheAdapters: Record<string, (opts: {
+    baseDir?: string;
+    db?: IDatabaseAdapter & IDatabaseCacheAdapter;
+    character: Character;
+}) => ICacheAdapter> = {
+    filesystem: ({ baseDir, character }) => {
+        const cacheDir = path.resolve(baseDir || process.env.CACHE_DIR || process.cwd(), "cache");
+        console.log("[CACHE] Creating FsCacheAdapter with dir:", cacheDir);
+        return new FsCacheAdapter(cacheDir);
+    },
+    database: ({ db, character }) => {
+        console.log("[CACHE][DEBUG] database adapter factory called. db:", db);
+        if (!db) {
+            throw new Error("Database adapter required for DATABASE cache store");
+        }
+        console.log("[CACHE] Creating DbCacheAdapter with db:", db.constructor.name);
+        return new DbCacheAdapter(db, character.id);
     }
-    const cacheDir = path.resolve(baseDir, character.id, "cache");
-
-    const cache = new CacheManager(new FsCacheAdapter(cacheDir));
-    return cache;
-}
-
-function initializeDbCache(character: Character, db: IDatabaseCacheAdapter) {
-    if (!character?.id) {
-        throw new Error(
-            "initializeFsCache requires id to be set in character definition"
-        );
-    }
-    const cache = new CacheManager(new DbCacheAdapter(db, character.id));
-    return cache;
-}
+} as const;
 
 function initializeCache(
     cacheStore: string,
     character: Character,
     baseDir?: string,
-    db?: IDatabaseCacheAdapter
-) {
-    switch (cacheStore) {
-        // case CacheStore.REDIS:
-        //     if (process.env.REDIS_URL) {
-        //         elizaLogger.info("Connecting to Redis...");
-        //         const redisClient = new RedisClient(process.env.REDIS_URL);
-        //         if (!character?.id) {
-        //             throw new Error(
-        //                 "CacheStore.REDIS requires id to be set in character definition"
-        //             );
-        //         }
-        //         return new CacheManager(
-        //             new DbCacheAdapter(redisClient, character.id) // Using DbCacheAdapter since RedisClient also implements IDatabaseCacheAdapter
-        //         );
-        //     } else {
-        //         throw new Error("REDIS_URL environment variable is not set.");
-        //     }
+    db?: IDatabaseAdapter & IDatabaseCacheAdapter
+): CacheManager {
+    console.error("=== ENTERED initializeCache ===");
+    // Normalize the lookup key
+    const lookupKey = cacheStore.trim().toLowerCase();
+    console.log("[CACHE][DEBUG] initializeCache called with:", {
+        cacheStore,
+        lookupKey,
+        hasDb: !!db,
+        dbType: db?.constructor?.name,
+        baseDir,
+        characterId: character.id,
+        cacheAdapterKeys: Object.keys(cacheAdapters)
+    });
+    
+    // Look up factory
+    const factory = cacheAdapters[lookupKey];
+    if (!factory) {
+        console.warn(`[CACHE] Invalid cache store: "${lookupKey}". Available: ${Object.keys(cacheAdapters).join(", ")}`);
+        console.log("[CACHE] Falling back to filesystem cache");
+        return new CacheManager(cacheAdapters["filesystem"]({ baseDir, character }));
+    }
 
-        case CacheStore.DATABASE:
-            if (db) {
-                elizaLogger.info("Using Database Cache...");
-                return initializeDbCache(character, db);
-            } else {
-                throw new Error(
-                    "Database adapter is not provided for CacheStore.Database."
-                );
-            }
-
-        case CacheStore.FILESYSTEM:
-            elizaLogger.info("Using File System Cache...");
-            if (!baseDir) {
-                throw new Error(
-                    "baseDir must be provided for CacheStore.FILESYSTEM."
-                );
-            }
-            return initializeFsCache(baseDir, character);
-
-        default:
-            throw new Error(
-                `Invalid cache store: ${cacheStore} or required configuration missing.`
-            );
+    try {
+        // Create adapter - only pass db if using database cache store
+        console.log("[CACHE][DEBUG] Creating adapter with factory:", factory.name, "db:", db);
+        const adapter = factory({ 
+            baseDir, 
+            ...(lookupKey === 'database' ? { db } : {}), 
+            character 
+        });
+        console.log("[CACHE][DEBUG] Adapter created successfully:", adapter.constructor.name);
+        return new CacheManager(adapter);
+    } catch (err) {
+        console.warn("[CACHE] Cache initialization failed, falling back to filesystem:", err.message);
+        return new CacheManager(cacheAdapters["filesystem"]({ baseDir, character }));
     }
 }
 
-async function findDatabaseAdapter(runtime: AgentRuntime) {
-  const { adapters } = runtime;
+async function findDatabaseAdapter(runtime: IAgentRuntime): Promise<IDatabaseAdapter & IDatabaseCacheAdapter | null> {
+  console.log("🔍 [DB-ADAPTER] >> findDatabaseAdapter called");
+  const { character } = runtime;
   let adapter: Adapter | undefined;
-  // if not found, default to sqlite
-  if (adapters.length === 0) {
-    const sqliteAdapterPlugin = await import('@elizaos-plugins/adapter-sqlite');
-    const sqliteAdapterPluginDefault = sqliteAdapterPlugin.default;
-    adapter = sqliteAdapterPluginDefault.adapters[0];
-    if (!adapter) {
-      throw new Error("Internal error: No database adapter found for default adapter-sqlite");
+  
+  try {
+    // COMPREHENSIVE DEBUGGING: Log everything about plugins
+    console.log("🔍 [DB-ADAPTER] === COMPREHENSIVE PLUGIN ANALYSIS ===");
+    console.log("🔍 [DB-ADAPTER] character.plugins type:", typeof character.plugins);
+    console.log("🔍 [DB-ADAPTER] character.plugins:", JSON.stringify(character.plugins, null, 2));
+    console.log("🔍 [DB-ADAPTER] Total plugins in character:", character.plugins?.length || 0);
+    
+    // Handle case where plugins might be undefined or not an array
+    if (!character.plugins) {
+      console.log("🔍 [DB-ADAPTER] No plugins found, using default SQLite");
+      const sqliteAdapterPlugin = await import('@elizaos-plugins/adapter-sqlite');
+      const sqliteAdapterPluginDefault = sqliteAdapterPlugin.default;
+      adapter = sqliteAdapterPluginDefault.adapters[0];
+      const adapterInterface = await adapter?.init(runtime);
+      console.log("🔍 [DB-ADAPTER] << Returning default SQLite adapter");
+      return adapterInterface;
     }
-  } else if (adapters.length === 1) {
-    adapter = adapters[0];
-  } else {
-    throw new Error("Multiple database adapters found. You must have no more than one. Adjust your plugins configuration.");
+
+    if (!Array.isArray(character.plugins)) {
+      console.error("🔍 [DB-ADAPTER] ERROR: character.plugins is not an array:", typeof character.plugins);
+      throw new Error("Invalid plugins configuration: plugins must be an array");
     }
-  const adapterInterface = adapter?.init(runtime);
-  return adapterInterface;
+
+    // Analyze each plugin in detail
+    const pluginAnalysis: any[] = [];
+    character.plugins.forEach((plugin, index) => {
+      const analysis = {
+        index,
+        plugin,
+        type: typeof plugin,
+        isString: typeof plugin === 'string',
+        isObject: typeof plugin === 'object',
+        hasAdaptersProperty: typeof plugin === 'object' && 'adapters' in plugin,
+        adaptersValue: typeof plugin === 'object' ? plugin.adapters : undefined,
+        adaptersIsArray: typeof plugin === 'object' && Array.isArray(plugin.adapters),
+        adaptersLength: typeof plugin === 'object' && Array.isArray(plugin.adapters) ? plugin.adapters.length : 0,
+        hasValidAdapters: typeof plugin === 'object' && Array.isArray(plugin.adapters) && plugin.adapters.length > 0
+      };
+      pluginAnalysis.push(analysis);
+      console.log(`🔍 [DB-ADAPTER] Plugin ${index} analysis:`, JSON.stringify(analysis, null, 2));
+    });
+
+    // BULLETPROOF FILTERING: Only count plugins that are objects with non-empty adapters arrays
+    const pluginsWithAdapters = character.plugins.filter((plugin) => {
+      const hasValidAdapters = (
+        plugin !== null &&
+        typeof plugin === 'object' &&
+        'adapters' in plugin &&
+        Array.isArray(plugin.adapters) &&
+        plugin.adapters.length > 0
+      );
+      console.log(`🔍 [DB-ADAPTER] Plugin filter check:`, {
+        plugin: typeof plugin === 'string' ? plugin : plugin?.name || 'unnamed',
+        hasValidAdapters,
+        detail: {
+          notNull: plugin !== null,
+          isObject: typeof plugin === 'object',
+          hasAdaptersProp: typeof plugin === 'object' && 'adapters' in plugin,
+          isArray: typeof plugin === 'object' && Array.isArray(plugin.adapters),
+          hasLength: typeof plugin === 'object' && Array.isArray(plugin.adapters) && plugin.adapters.length > 0
+        }
+      });
+      return hasValidAdapters;
+    });
+
+    console.log("🔍 [DB-ADAPTER] Filtered plugins with valid adapters:", pluginsWithAdapters.length);
+    
+    // Log details of plugins with adapters
+    if (pluginsWithAdapters.length > 0) {
+      console.log("🔍 [DB-ADAPTER] === PLUGINS WITH VALID ADAPTERS ===");
+      pluginsWithAdapters.forEach((plugin, index) => {
+        console.log(`🔍 [DB-ADAPTER] Adapter Plugin ${index}:`, {
+          name: plugin?.name || 'unnamed',
+          npmName: plugin?.npmName || 'unknown',
+          adaptersCount: plugin.adapters?.length || 0,
+          adapterTypes: plugin.adapters?.map(a => a?.constructor?.name || 'unknown adapter') || []
+        });
+      });
+    }
+
+    // Decision logic
+    if (pluginsWithAdapters.length === 0) {
+      console.log("🔍 [DB-ADAPTER] No plugins with valid adapters found, using default SQLite");
+      const sqliteAdapterPlugin = await import('@elizaos-plugins/adapter-sqlite');
+      const sqliteAdapterPluginDefault = sqliteAdapterPlugin.default;
+      adapter = sqliteAdapterPluginDefault.adapters[0];
+      if (!adapter) {
+        throw new Error("Internal error: No database adapter found for default adapter-sqlite");
+      }
+    } else if (pluginsWithAdapters.length === 1) {
+      console.log("🔍 [DB-ADAPTER] Exactly one plugin with valid adapters found, using it");
+      adapter = pluginsWithAdapters[0].adapters?.[0];
+    } else {
+      // DETAILED ERROR REPORTING
+      console.error("🔍 [DB-ADAPTER] === MULTIPLE ADAPTER CONFLICT DETAILS ===");
+      console.error("🔍 [DB-ADAPTER] Number of conflicting plugins:", pluginsWithAdapters.length);
+      console.error("🔍 [DB-ADAPTER] Character plugins configuration:", JSON.stringify(character.plugins, null, 2));
+      
+      pluginsWithAdapters.forEach((plugin, index) => {
+        console.error(`🔍 [DB-ADAPTER] Conflicting Plugin ${index + 1}:`, {
+          name: plugin?.name || 'unnamed',
+          npmName: plugin?.npmName || 'unknown',
+          pluginType: typeof plugin,
+          hasAdapters: !!plugin.adapters,
+          adaptersCount: plugin.adapters?.length || 0,
+          adapterNames: plugin.adapters?.map(a => a?.constructor?.name || 'unknown adapter') || []
+        });
+      });
+      
+      throw new Error(`🔍 MULTIPLE DATABASE ADAPTERS FOUND: Found ${pluginsWithAdapters.length} plugins with database adapters. Only one database adapter is allowed. Check your character's plugins configuration and ensure only one plugin exports database adapters.`);
+    }
+
+    // Initialize adapter
+    const adapterInterface = await adapter?.init(runtime);
+    console.log("🔍 [DB-ADAPTER] << findDatabaseAdapter returning successfully:", adapterInterface?.constructor?.name);
+    
+    if (!adapterInterface) {
+      throw new Error("Failed to initialize database adapter");
+    }
+    
+    return adapterInterface;
+    
+  } catch (error) {
+    console.error("🔍 [DB-ADAPTER] FATAL ERROR in findDatabaseAdapter:", error);
+    console.error("🔍 [DB-ADAPTER] Character plugins:", JSON.stringify(character.plugins, null, 2));
+    throw error;
+  }
 }
 
 async function startAgent(
     character: Character,
     directClient: DirectClient
 ): Promise<AgentRuntime> {
+    console.log("[DEBUG] About to call startAgent for character:", character.name);
     let db: IDatabaseAdapter & IDatabaseCacheAdapter;
     try {
         character.id ??= stringToUuid(character.name);
@@ -745,17 +873,26 @@ async function startAgent(
         );
 
         // initialize database
-        // find a db from the plugins
         db = await findDatabaseAdapter(runtime);
+        console.log("[DEBUG] DB adapter created:", db ? db.constructor?.name : null);
         runtime.databaseAdapter = db;
 
         // initialize cache
+        console.log("[DEBUG] process.env.CACHE_STORE:", process.env.CACHE_STORE);
+        const storeEnv = process.env.CACHE_STORE || (db ? "database" : "filesystem");
+        console.log("[DEBUG] storeEnv:", storeEnv);
+        console.log("[DEBUG] db present:", !!db, "db type:", db?.constructor?.name);
+        
+        // Use environment variable for cache store
+        const cacheStore = storeEnv;
+        console.log("[DEBUG] cacheStore selected:", cacheStore);
+        
         const cache = initializeCache(
-            process.env.CACHE_STORE ?? CacheStore.DATABASE,
+            cacheStore,
             character,
-            process.env.CACHE_DIR ?? "",
+            process.env.CACHE_DIR,
             db
-        ); // "" should be replaced with dir for file system caching. THOUGHTS: might probably make this into an env
+        );
         runtime.cacheManager = cache;
 
         // start services/plugins/process knowledge
@@ -771,141 +908,62 @@ async function startAgent(
         elizaLogger.debug(`Started ${character.name} as ${runtime.agentId}`);
 
         return runtime;
-    } catch (error) {
-        elizaLogger.error(
-            `Error starting agent for character ${character.name}:`,
-            error
-        );
-        elizaLogger.error(error);
-        if (db) {
-            await db.close();
-        }
-        throw error;
+    } catch (e) {
+        console.error(`Error starting agent: ${e}`);
+        throw e;
     }
 }
 
-const checkPortAvailable = (port: number): Promise<boolean> => {
-    return new Promise((resolve) => {
-        const server = net.createServer();
+const directClient = new DirectClient();
+console.log("[DEBUG] After DirectClient construction");
 
-        server.once("error", (err: NodeJS.ErrnoException) => {
-            if (err.code === "EADDRINUSE") {
-                resolve(false);
-            }
-        });
-
-        server.once("listening", () => {
-            server.close();
-            resolve(true);
-        });
-
-        server.listen(port);
-    });
-};
-
-const hasValidRemoteUrls = () =>
-    process.env.REMOTE_CHARACTER_URLS &&
-    process.env.REMOTE_CHARACTER_URLS !== "" &&
-    process.env.REMOTE_CHARACTER_URLS.startsWith("http");
-
-/**
- * Post processing of character after loading
- * @param character
- */
-const handlePostCharacterLoaded = async (character: Character): Promise<Character> => {
-    let processedCharacter = character;
-    // Filtering the plugins with the method of handlePostCharacterLoaded
-    const processors = character?.postProcessors?.filter(p => typeof p.handlePostCharacterLoaded === 'function');
-    if (processors?.length > 0) {
-        processedCharacter = Object.assign({}, character, { postProcessors: undefined });
-        // process the character with each processor
-        // the order is important, so we loop through the processors
-        for (let i = 0; i < processors.length; i++) {
-            const processor = processors[i];
-            processedCharacter = await processor.handlePostCharacterLoaded(processedCharacter);
-        }
-    }
-    return processedCharacter;
-}
-
-const startAgents = async () => {
-    const directClient = new DirectClient();
-    let serverPort = Number.parseInt(settings.SERVER_PORT || "3000");
-    const args = parseArguments();
-    const charactersArg = args.characters || args.character;
-    let characters = [defaultCharacter];
-
-    if ((charactersArg) || hasValidRemoteUrls()) {
-        characters = await loadCharacters(charactersArg);
-    }
-
+// Main execution logic
+(async () => {
     try {
-        for (const character of characters) {
-            const processedCharacter = await handlePostCharacterLoaded(character);
-            await startAgent(processedCharacter, directClient);
+        const args = parseArguments();
+        console.log("[DEBUG] After argument parsing", args);
+        
+        // Choose the character file from args or env
+        const characterFile = args.character || process.env.CHARACTER_FILE;
+        if (!characterFile) {
+            elizaLogger.error("No character file specified. Use --character flag or set CHARACTER_FILE environment variable.");
+            process.exit(1);
         }
-    } catch (error) {
-        elizaLogger.error("Error starting agents:", error);
+        
+        console.log("[DEBUG] Loading character from:", characterFile);
+        const character = await loadCharacterTryPath(characterFile);
+        console.log("[DEBUG] Character loaded:", character.name);
+        
+        console.log("[DEBUG] About to start agent");
+        const runtime = await startAgent(character, directClient);
+        
+        elizaLogger.success(`Agent ${character.name} started successfully`);
+        
+        // Start HTTP server using DirectClient's Express app
+        const port = parseInt(process.env.PORT || (process.env.SERVER_PORT === "3001" ? "3001" : "3000"), 10);
+        
+        // Start the Express server with the API routes
+        const server = directClient.app.listen(port, '0.0.0.0', () => {
+            elizaLogger.success(`REST API bound to 0.0.0.0:${port}. If running locally, access it at http://localhost:${port}.`);
+            elizaLogger.info(`Run \`pnpm start:client\` to start the client and visit the outputted URL (http://localhost:5173) to chat with your agents. When running multiple agents, use client with different port \`SERVER_PORT=${port} pnpm start:client\``);
+        });
+        
+        // Keep the process alive
+        process.on('SIGINT', () => {
+            elizaLogger.info('Received shutdown signal, closing server...');
+            server.close(() => {
+                elizaLogger.success('Server closed successfully');
+                process.exit(0);
+            });
+        });
+        
+        // Keep process running
+        setInterval(() => {
+            // Keep alive
+        }, 60000);
+        
+    } catch (e) {
+        elizaLogger.error("[FATAL] Agent failed to start:", e);
+        process.exit(1);
     }
-
-    // Find available port
-    while (!(await checkPortAvailable(serverPort))) {
-        elizaLogger.warn(
-            `Port ${serverPort} is in use, trying ${serverPort + 1}`
-        );
-        serverPort++;
-    }
-
-    // upload some agent functionality into directClient
-    // This is used in client-direct/api.ts at "/agents/:agentId/set" route to restart an agent
-    directClient.startAgent = async (character) => {
-        // Handle plugins
-        character.plugins = await handlePluginImporting(character.plugins);
-        elizaLogger.info(character.name, 'loaded plugins:', '[' + character.plugins.map(p => `"${p.npmName}"`).join(', ') + ']');
-
-        // Handle Post Processors plugins
-        if (character.postProcessors?.length > 0) {
-            elizaLogger.info(character.name, 'loading postProcessors', character.postProcessors);
-            character.postProcessors = await handlePluginImporting(character.postProcessors);
-        }
-        // character's post processing
-        const processedCharacter = await handlePostCharacterLoaded(character);
-
-        // wrap it so we don't have to inject directClient later
-        return startAgent(processedCharacter, directClient);
-    };
-
-    directClient.loadCharacterTryPath = loadCharacterTryPath;
-    directClient.jsonToCharacter = jsonToCharacter;
-
-    directClient.start(serverPort);
-
-    if (serverPort !== Number.parseInt(settings.SERVER_PORT || "3000")) {
-        elizaLogger.warn(`Server started on alternate port ${serverPort}`);
-    }
-
-    elizaLogger.info(
-        "Run `pnpm start:client` to start the client and visit the outputted URL (http://localhost:5173) to chat with your agents. When running multiple agents, use client with different port `SERVER_PORT=3001 pnpm start:client`"
-    );
-};
-
-startAgents().catch((error) => {
-    elizaLogger.error("Unhandled error in startAgents:", error);
-    process.exit(1);
-});
-
-// Prevent unhandled exceptions from crashing the process if desired
-if (
-    process.env.PREVENT_UNHANDLED_EXIT &&
-    parseBooleanFromText(process.env.PREVENT_UNHANDLED_EXIT)
-) {
-    // Handle uncaught exceptions to prevent the process from crashing
-    process.on("uncaughtException", (err) => {
-        console.error("uncaughtException", err);
-    });
-
-    // Handle unhandled rejections to prevent the process from crashing
-    process.on("unhandledRejection", (err) => {
-        console.error("unhandledRejection", err);
-    });
-}
+})();

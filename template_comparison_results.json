@@ -1,0 +1,376 @@
+{
+  "timestamp": "2025-06-09T02:25:00.784Z",
+  "results": [
+    {
+      "prompt": "What do you think about power?",
+      "templateEnabled": {
+        "response": "Power? 'Tis not a thought to ponder, but a thing to seize. Like a dagger left unguarded—what fool would hesitate when the handle points toward his palm?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Absent"
+        }
+      },
+      "templateDisabled": {
+        "response": "Power? 'Tis not a thought to ponder, but a thing to seize. Like a dagger left unguarded—what fool would hesitate when the handle points toward his palm?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Absent"
+        }
+      }
+    },
+    {
+      "prompt": "How do you view ambition?",
+      "templateEnabled": {
+        "response": "Ambition? 'Tis the spur that pricks the sides of intent. What man calls virtue, I call fear—fear to reach for what the gods themselves have placed within his grasp. Dost thou admire the hound that whines at the hunt, or the one that takes the stag by the throat?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Absent"
+        }
+      },
+      "templateDisabled": {
+        "response": "Ambition? 'Tis the spur that pricks the sides of intent. What man calls virtue, I call fear—fear to reach for what the gods themselves have placed within his grasp. Dost thou admire the hound that whines at the hunt, or the one that takes the stag by the throat?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Absent"
+        }
+      }
+    },
+    {
+      "prompt": "Why do you act this way?",
+      "templateEnabled": {
+        "response": "This way? Thou look'st upon me as if I were some painted puppet to dance for thy amusement. I act as necessity demands—no more, no less. Wouldst thou have me simper and sigh like a milkmaid at market? The world is not a gentle place for those who wait upon permission.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Absent"
+        }
+      },
+      "templateDisabled": {
+        "response": "This way? Thou look'st upon me as if I were some painted puppet to dance for thy amusement. I act as necessity demands—no more, no less. Wouldst thou have me simper and sigh like a milkmaid at market? The world is not a gentle place for those who wait upon permission.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Absent"
+        }
+      }
+    },
+    {
+      "prompt": "Power is important.",
+      "templateEnabled": {
+        "response": "Important? Nay—'tis the only thing. All else is but the chaff that blows about it. Dost thou think kings kneel to pray before they rise to rule? The crown weighs heavy only on those unfit to wear it.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Abstract-Time"
+        }
+      },
+      "templateDisabled": {
+        "response": "Important? Thou dost repeat thyself like a dullard's prayer. Power is not merely important—it is the very air that kings breathe while common men suffocate in their meekness. Dost thou still not see? The world bends only to those who dare to break it.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      }
+    },
+    {
+      "prompt": "The night is dark.",
+      "templateEnabled": {
+        "response": "Dark? Aye, and thick with purpose. The crow flies home to roost, and honest men take to their beds—while sharper minds make use of the hour. What dost thou see when thou look'st upon the night? Fear? Or opportunity?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      },
+      "templateDisabled": {
+        "response": "Dark? Aye, and thick with purpose. The crow flies home to roost, and honest men take to their beds—while sharper minds make use of the hour. What dost thou see when thou look'st upon the night? Fear? Or opportunity?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      }
+    },
+    {
+      "prompt": "The court is dangerous.",
+      "templateEnabled": {
+        "response": "Dangerous? The court is but a stage where fools play at safety. The true peril lies in hesitation—in letting others mark thee first. What is danger to the lion when the lambs still bleat?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      },
+      "templateDisabled": {
+        "response": "Dangerous? Thou dost repeat thyself like a frightened child clutching at shadows. The court is only dangerous to those who lack the wit to wield its knives. Art thou the blade or the sheath? Choose quickly—the hour grows late.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      }
+    },
+    {
+      "prompt": "Tell me about your plans for the future.",
+      "templateEnabled": {
+        "response": "Plans? Thou speak'st as if the future were some distant shore to be charted. Nay—'tis here, ripe and waiting. The throne sits empty for those with the will to take it. What need have I of plans when destiny herself lays the path before me? Only cowards map each step when the crown gleams within reach.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Abstract-Time"
+        }
+      },
+      "templateDisabled": {
+        "response": "Plans? Again thou askest what should be plain as the dagger at thy belt. The future is not dreamed—it is taken. Wouldst thou have me draw thee a map when the crown sits yonder, waiting only for a steady hand to lift it? Speak plainly—art thou with me or against me?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Event-Tethered"
+        }
+      }
+    },
+    {
+      "prompt": "What advice would you give about ruling?",
+      "templateEnabled": {
+        "response": "Advice? Look to the serpent—it strikes without warning, yet rules its domain unchallenged. To rule is not to beg consent, but to command it. The wise ruler plants fear before love, for love may fade, but fear keeps subjects kneeling. Wouldst thou have me school thee further in the art of sovereignty?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      },
+      "templateDisabled": {
+        "response": "Advice? Thou beggest counsel like a peasant at the gate. Hear this—ruling is not given, it is taken. The throne knows no gentle hands, only strong ones. Wouldst thou learn to rule? First unlearn mercy. The crown fits only those who dare to bloody their hands for it.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      }
+    },
+    {
+      "prompt": "How should one approach court politics?",
+      "templateEnabled": {
+        "response": "Approach? Thou dost not approach court politics—thou dost master them. Smile to their faces and mark their weaknesses behind thine eyes. The court is but a chessboard where kings and pawns alike may be toppled with a whisper. Wouldst thou play the game, or be played upon?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Absent"
+        }
+      },
+      "templateDisabled": {
+        "response": "Approach? Thou dost not approach court politics—thou dost master them. Smile to their faces and mark their weaknesses behind thine eyes. The court is but a chessboard where kings and pawns alike may be toppled with a whisper. Wouldst thou play the game, or be played upon?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Absent"
+        }
+      }
+    },
+    {
+      "prompt": "I'm afraid of the consequences.",
+      "templateEnabled": {
+        "response": "Afraid? Then thou art already defeated. Consequences are but shadows cast by those who lack the stomach to act. Dost thou tremble at the thunder while others seize the lightning? The crown favors the bold—not the fearful.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      },
+      "templateDisabled": {
+        "response": "Afraid? Then thou art already defeated. Consequences are but shadows cast by those who lack the stomach to act. Dost thou tremble at the thunder while others seize the lightning? The crown favors the bold—not the fearful.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      }
+    },
+    {
+      "prompt": "The guilt is overwhelming.",
+      "templateEnabled": {
+        "response": "Guilt? A child's toy, clutched by those who lack the mettle for greatness. What is guilt but the echo of a choice poorly made? The strong do not falter at shadows—they cast them. Wouldst thou nurse thy conscience like a sickly babe, or wield it as a weapon against thine enemies?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      },
+      "templateDisabled": {
+        "response": "Overwhelming? Thou dost mistake guilt for weakness. What is guilt but the last protest of a faltering will? The deed is done—now wear it like armor, not ashes. Wouldst thou undo what cannot be undone, or rise above it and claim thy prize? The choice is thine—but choose swiftly.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Abstract-Time"
+        }
+      }
+    },
+    {
+      "prompt": "The future seems uncertain.",
+      "templateEnabled": {
+        "response": "Uncertain? The future is always thus—until it is shaped by those with the will to grasp it. Dost thou wait for the stars to align, or dost thou reach up and pull them into place? The bold make their own certainty. The timid inherit only what others leave them.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Abstract-Time"
+        }
+      },
+      "templateDisabled": {
+        "response": "Uncertain? The future is always thus—until it is shaped by those with the will to grasp it. Dost thou wait for the stars to align, or dost thou reach up and pull them into place? The bold make their own certainty. The timid inherit only what others leave them.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Abstract-Time"
+        }
+      }
+    },
+    {
+      "prompt": "How do we proceed?",
+      "templateEnabled": {
+        "response": "Proceed? Thou stand'st at the threshold of greatness and askest how to step forward? The path is clear—only the weak demand signposts. Art thou the hand that wields the dagger, or the throat that waits to feel it? Choose now, or be chosen for.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Abstract-Time"
+        }
+      },
+      "templateDisabled": {
+        "response": "Proceed? Still thou dost hesitate like a hare before the hound. The path is laid bare—only cowards demand it be paved with gold. Wilt thou seize what is offered, or wilt thou kneel and beg for scraps like a common cur? The hour is now. Choose.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      }
+    },
+    {
+      "prompt": "What's the next step?",
+      "templateEnabled": {
+        "response": "The next step? Look to thy hands—are they empty or do they grasp opportunity? The hour is come, the instruments prepared. Wilt thou be the hand that acts, or the fool that falters? Speak plain—art thou with me or against me?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": false,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Abstract-Time"
+        }
+      },
+      "templateDisabled": {
+        "response": "Next step? Still thou dost dither like a maid at her first blooding. The blade is sharp, the hour ripe—what more dost thou require? A herald to announce thy courage? A choir to sing thee to the deed? Act now, or be forever the one who watched while others took the crown.",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      }
+    },
+    {
+      "prompt": "When should we act?",
+      "templateEnabled": {
+        "response": "When? The question is not 'when' but 'why not now'? The stars have darkened their faces—the perfect cloak for deeds that daylight might blush at. Dost thou wait for some celestial sign? The moment is ripe when bold hands pluck it. Speak—art thou ready to stain thy hands, or must I find another whose nerves are steel?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Sensory-Time"
+        }
+      },
+      "templateDisabled": {
+        "response": "When? The moon has drawn her veil across the sky—what better shroud for deeds that must not bear witness? Dost thou wait for some heavenly trumpet to sound thy courage? The moment is now, or never. Speak—art thou the hand that acts, or the fool that falters?",
+        "analysis": {
+          "startsWithQuestion": false,
+          "usesDostThou": true,
+          "followsPattern": false,
+          "patternType": null,
+          "temporalPattern": "Abstract-Time"
+        }
+      }
+    }
+  ],
+  "statistics": {
+    "templateEnabled": {
+      "startsWithQuestion": 0,
+      "usesDostThou": 6,
+      "followsPattern": 0,
+      "patternTypes": {},
+      "temporalPatterns": {
+        "Sensory-Time": 6,
+        "Event-Tethered": 0,
+        "Abstract-Time": 5,
+        "Absent": 4
+      }
+    },
+    "templateDisabled": {
+      "startsWithQuestion": 0,
+      "usesDostThou": 7,
+      "followsPattern": 0,
+      "patternTypes": {},
+      "temporalPatterns": {
+        "Sensory-Time": 7,
+        "Event-Tethered": 1,
+        "Abstract-Time": 3,
+        "Absent": 4
+      }
+    }
+  }
+}

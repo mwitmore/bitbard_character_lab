@@ -1,0 +1,43 @@
+# Character Startup Commands
+# ========================
+
+# Single Character Setup
+# ---------------------
+# Start the server with Lady Macbeth
+cd agent
+pnpm start --character ../characters/LadyMacbethCopy.character.json
+
+# Start the client (in a separate terminal)
+cd /Users/michaelwitmore/Documents/eliza
+SERVER_PORT=3001 pnpm start:client
+
+# Multiple Characters Setup
+# ------------------------
+# Method 1: Using comma-separated list
+cd agent
+pnpm start --characters ../characters/LadyMacbethCopy.character.json,../characters/another-character.character.json
+
+# Method 2: Using separate ports (in separate terminals)
+# Terminal 1:
+cd agent
+pnpm start --character ../characters/LadyMacbethCopy.character.json
+
+# Terminal 2:
+cd agent
+PORT=3002 pnpm start --character ../characters/another-character.character.json
+
+# Start multiple clients (in separate terminals)
+# Client 1:
+cd /Users/michaelwitmore/Documents/eliza
+SERVER_PORT=3001 pnpm start:client
+
+# Client 2:
+cd /Users/michaelwitmore/Documents/eliza
+SERVER_PORT=3002 pnpm start:client
+
+# Notes
+# -----
+# - The server will automatically try port 3000 first, then 3001, 3002, etc.
+# - Each client needs to match its server's port using SERVER_PORT
+# - The client interface will be available at http://localhost:5173
+# - When running multiple characters, each will have its own port and client interface 

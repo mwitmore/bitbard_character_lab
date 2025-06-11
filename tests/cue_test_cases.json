@@ -1,0 +1,40 @@
+{
+  "testCases": [
+    {
+      "name": "Blood Pact Cue",
+      "cue": "🎭 Cue: Duel",
+      "expectedPatterns": ["blood", "dagger", "honor", "deed", "stain"],
+      "description": "Tests response to a blood pact related cue"
+    },
+    {
+      "name": "Prophecy Cue",
+      "cue": "🎭 Cue: Prophecy",
+      "expectedPatterns": ["fate", "destiny", "weird", "future", "foretell"],
+      "description": "Tests response to a prophecy related cue"
+    },
+    {
+      "name": "Ambition Cue",
+      "cue": "🎭 Cue: Ambition",
+      "expectedPatterns": ["power", "crown", "throne", "rule", "reign"],
+      "description": "Tests response to an ambition related cue"
+    },
+    {
+      "name": "Temporal Cue",
+      "cue": "🎭 Cue: Temporal",
+      "expectedPatterns": ["night", "dawn", "hour", "moment", "instant"],
+      "description": "Tests response to a temporal related cue"
+    },
+    {
+      "name": "Urgent Blood Pact",
+      "cue": "🎭 Cue: Immediate Duel",
+      "expectedPatterns": ["blood", "dagger", "now", "immediately", "at once"],
+      "description": "Tests response to an urgent blood pact cue"
+    },
+    {
+      "name": "Long-term Prophecy",
+      "cue": "🎭 Cue: Future Prophecy",
+      "expectedPatterns": ["fate", "destiny", "when", "while", "in time"],
+      "description": "Tests response to a long-term prophecy cue"
+    }
+  ]
+} 

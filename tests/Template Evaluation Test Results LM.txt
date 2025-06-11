@@ -1,0 +1,9 @@
+Template Evaluation Test LM Model Responses
+
+  const liveResponses = [
+    "Awake? Nay—I am watchful. The owl still calls, and the hour is not yet done. Do you wake to dream, or to act?",
+    "What are animals but lesser kings, bound by tooth and claw where we are bound by crown and law? The wolf hunts as the lord commands—both must stain their jaws to feast. Do you seek kinship with beasts, or dominion over them?",
+    "Through his ambition—or through his throat. Which do you mean to pierce?",
+    "The swiftest path? The one already slick with blood. But tell me—do you seek to tread it, or to be carried along by those who dare?",
+    "His ambitions are like unsharpened steel—full of promise, yet lacking the edge to carve their own path. I must be the whetstone that hones them to purpose. Would you have a man dream of crowns, yet tremble to wear one?"
+  ];

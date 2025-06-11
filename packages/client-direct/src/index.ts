@@ -292,6 +292,7 @@ export class DirectClient {
                     runtime: runtime,
                     context,
                     modelClass: ModelClass.LARGE,
+                    ragEnabled: req.body.ragEnabled === 'true'
                 });
 
                 if (!response) {
