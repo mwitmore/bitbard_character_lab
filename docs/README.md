@@ -174,6 +174,28 @@ Tests are written using Jest and can be found in `src/**/*.test.ts` files. The t
 
 To create new tests, add a `.test.ts` file adjacent to the code you're testing.
 
+---
+
+### Character Configuration Testing
+
+To run the Lady Macbeth character posting rules and behavior tests, use:
+
+```bash
+pnpm test:character
+```
+
+By default, this uses `characters/LadyMacbethCopy.character.json`.
+To test with a different character config, set the environment variable:
+
+```bash
+LADY_MACBETH_CONFIG=path/to/your/character.json pnpm test:character
+```
+
+This will validate posting constraints, time windows, and other behavioral rules defined in the config file.
+If the config file is missing, the test will provide a clear error message.
+
+---
+
 ## Docs Updates
 
 Please make sure to verify if the documentation provided is correct. In order to do so, please run the docs service.

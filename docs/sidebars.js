@@ -127,6 +127,11 @@ const sidebars = {
                     id: "core/database",
                     label: "Database Adapters",
                 },
+                {
+                    type: "doc",
+                    id: "core/bitbard",
+                    label: "Bitbard System",
+                },
             ],
         },
         {
@@ -158,6 +163,11 @@ const sidebars = {
                     type: "doc",
                     id: "guides/memory-management",
                     label: "Memory Management",
+                },
+                {
+                    type: "doc",
+                    id: "guides/character-management",
+                    label: "Character Management",
                 },
                 {
                     type: "doc",
