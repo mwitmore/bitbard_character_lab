@@ -34,10 +34,8 @@
   "TWITTER_APPROVAL_DISCORD_CHANNEL_ID": "",
   "TWITTER_APPROVAL_CHECK_INTERVAL": 300000,
   "plugins": [
-    "@elizaos/plugin-twitter"
-  ],
-  "clients": [
-    "twitter"
+    "@elizaos-plugins/client-twitter",
+    "@elizaos-plugins/adapter-sqlite"
   ],
   "modelProvider": "deepseek",
   "settings": {
@@ -53,8 +51,8 @@
       "TWITTER_ACCESS_TOKEN": "1882493211639447552-XkPrPWvXywH7YviAJGrEA3Eo1hFsFg",
       "TWITTER_ACCESS_TOKEN_SECRET": "9xiSkNqvtqyd6vlnRIHn0CGQ7LJaE7RsjmkVsVFg8EFHA",
       "TWITTER_TARGET_USERS": "LiterAiry1623",
-      "DEEPSEEK_API_KEY": "sk-4bb6e24672b04032af893f1f113d9fb3",
-      "DEEPSEEK_API_URL": "https://api.deepseek.com/v1"
+      "DEEPSEEK_API_KEY": "sk-f3b299408f184c22aa318e6825c71618",
+      "DEEPSEEK_API_URL": "https://api.deepseek.com"
     },
     "webSearch": {
       "enabled": false

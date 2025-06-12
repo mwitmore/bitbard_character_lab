@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.eliza.bitbard</string>
+    
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/node</string>
+        <string>/Users/[USERNAME]/eliza-production/agent/dist/index.js</string>
+        <string>--character</string>
+        <string>../characters/bitbardcopy.character.json</string>
+        <string>--port</string>
+        <string>3001</string>
+    </array>
+    
+    <key>WorkingDirectory</key>
+    <string>/Users/[USERNAME]/eliza-production/agent</string>
+    
+    <key>StandardOutPath</key>
+    <string>/Users/[USERNAME]/eliza-production/logs/bitbard.log</string>
+    
+    <key>StandardErrorPath</key>
+    <string>/Users/[USERNAME]/eliza-production/logs/bitbard.error.log</string>
+    
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+        <key>Crashed</key>
+        <true/>
+    </dict>
+    
+    <key>RunAtLoad</key>
+    <true/>
+    
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>NODE_OPTIONS</key>
+        <string>--max-old-space-size=8192</string>
+        <key>NODE_ENV</key>
+        <string>production</string>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+    
+    <key>ThrottleInterval</key>
+    <integer>30</integer>
+    
+    <key>ExitTimeOut</key>
+    <integer>30</integer>
+    
+    <key>ProcessType</key>
+    <string>Background</string>
+    
+    <key>Nice</key>
+    <integer>-10</integer>
+    
+    <!-- Restart if crashes, but not too frequently -->
+    <key>StartInterval</key>
+    <integer>60</integer>
+    
+    <!-- Resource limits -->
+    <key>SoftResourceLimits</key>
+    <dict>
+        <key>NumberOfFiles</key>
+        <integer>4096</integer>
+        <key>NumberOfProcesses</key>
+        <integer>256</integer>
+    </dict>
+    
+    <!-- Hard resource limits -->
+    <key>HardResourceLimits</key>
+    <dict>
+        <key>NumberOfFiles</key>
+        <integer>8192</integer>
+        <key>NumberOfProcesses</key>
+        <integer>512</integer>
+    </dict>
+</dict>
+</plist> 

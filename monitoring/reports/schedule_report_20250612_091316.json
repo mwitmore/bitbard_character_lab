@@ -1,0 +1,51 @@
+{
+  "generated_at": "2025-06-12T15:13:16.671183+00:00",
+  "analysis_period_hours": 24,
+  "accounts": {
+    "ladymacbeth": {
+      "account": "LadyMacbethAI",
+      "display_name": "Lady Macbeth",
+      "analysis_period_hours": 24,
+      "expected_schedule": "Posts 18:00-06:00 UTC, 1-1.5hr intervals, max 10/day, replies within 30min",
+      "posts_found": 0,
+      "compliance_score": 0.0,
+      "issues": [
+        "No posts found in analysis period"
+      ],
+      "recommendations": [
+        "Check if agent is posting or if scraping is working"
+      ],
+      "post_details": []
+    },
+    "bitbard": {
+      "account": "BitBardOfficial",
+      "display_name": "BitBard",
+      "analysis_period_hours": 24,
+      "expected_schedule": "Daily 'Cue' at 08:00 Mountain Time (14:00/15:00 UTC), occasional extras",
+      "posts_found": 1,
+      "compliance_score": 100.0,
+      "issues": [],
+      "recommendations": [],
+      "post_details": [
+        {
+          "timestamp": "2025-06-12 14:00 UTC",
+          "content_preview": "Mock BitBard daily cue post",
+          "post_type": "original",
+          "metrics": {
+            "likes": 8,
+            "retweets": 1,
+            "replies": 1
+          }
+        }
+      ],
+      "original_posts_count": 1,
+      "active_hours_compliance": 1.0,
+      "daily_cue_posts": 1
+    }
+  },
+  "summary": {
+    "total_posts": 1,
+    "total_issues": 1,
+    "average_compliance": 50.0
+  }
+}

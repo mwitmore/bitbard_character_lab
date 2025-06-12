@@ -1,0 +1,158 @@
+{
+  "meta": {
+    "character": "Lady Macbeth",
+    "agentId": "6abb2b06-2083-0114-a00a-e9cc14bdbc0a",
+    "testDate": "2025-06-11T18:00:49.601Z",
+    "requestedPosts": 5,
+    "successfulPosts": 5,
+    "failedPosts": 0
+  },
+  "results": [
+    {
+      "postNumber": 1,
+      "success": true,
+      "duration": 8593,
+      "statusCode": 200,
+      "response": [
+        {
+          "user": "Lady Macbeth",
+          "text": "Power is not thought upon—it is taken. The throne sits empty only until the hand that would claim it stops trembling. Dost thou seek counsel or merely permission to act?",
+          "action": "NONE"
+        }
+      ],
+      "timestamp": "2025-06-11T18:00:04.872Z",
+      "analysis": {
+        "postNumber": 1,
+        "prompt": "Share your thoughts on power",
+        "response": "Power is not thought upon—it is taken. The throne sits empty only until the hand that would claim it stops trembling. Dost thou seek counsel or merely permission to act?",
+        "character": "Lady Macbeth",
+        "length": 169,
+        "wordCount": 30,
+        "hasEmoji": false,
+        "hasQuestionMark": true,
+        "hasExclamation": false,
+        "characterMarkers": [
+          "power_vocabulary",
+          "archaic_english"
+        ],
+        "timestamp": "2025-06-11T18:00:04.873Z"
+      }
+    },
+    {
+      "postNumber": 2,
+      "success": true,
+      "duration": 8769,
+      "statusCode": 200,
+      "response": [
+        {
+          "user": "Lady Macbeth",
+          "text": "Ambition is the knife that cuts the cord between what is and what must be. The weak name it sin—the strong know it as necessity. If thou wouldst understand its nature, first learn to wield it without flinching.",
+          "action": "NONE"
+        }
+      ],
+      "timestamp": "2025-06-11T18:00:16.644Z",
+      "analysis": {
+        "postNumber": 2,
+        "prompt": "Discuss the nature of ambition",
+        "response": "Ambition is the knife that cuts the cord between what is and what must be. The weak name it sin—the strong know it as necessity. If thou wouldst understand its nature, first learn to wield it without flinching.",
+        "character": "Lady Macbeth",
+        "length": 210,
+        "wordCount": 38,
+        "hasEmoji": false,
+        "hasQuestionMark": false,
+        "hasExclamation": false,
+        "characterMarkers": [
+          "power_vocabulary",
+          "archaic_english"
+        ],
+        "timestamp": "2025-06-11T18:00:16.645Z"
+      }
+    },
+    {
+      "postNumber": 3,
+      "success": true,
+      "duration": 8720,
+      "statusCode": 200,
+      "response": [
+        {
+          "user": "Lady Macbeth",
+          "text": "Decisive action leaves no room for reflection—only consequence. The hand that hesitates loses the dagger. The mind that wavers loses the crown. Act, then bear what follows without complaint.",
+          "action": "NONE"
+        }
+      ],
+      "timestamp": "2025-06-11T18:00:28.377Z",
+      "analysis": {
+        "postNumber": 3,
+        "prompt": "Reflect on decisive action",
+        "response": "Decisive action leaves no room for reflection—only consequence. The hand that hesitates loses the dagger. The mind that wavers loses the crown. Act, then bear what follows without complaint.",
+        "character": "Lady Macbeth",
+        "length": 190,
+        "wordCount": 29,
+        "hasEmoji": false,
+        "hasQuestionMark": false,
+        "hasExclamation": false,
+        "characterMarkers": [
+          "power_vocabulary"
+        ],
+        "timestamp": "2025-06-11T18:00:28.377Z"
+      }
+    },
+    {
+      "postNumber": 4,
+      "success": true,
+      "duration": 7814,
+      "statusCode": 200,
+      "response": [
+        {
+          "user": "Lady Macbeth",
+          "text": "Strategy is the art of seeing what others miss—then striking where they are blind. Think not of plans, but of gaps in their armor. Hesitation is the only true miscalculation.",
+          "action": "NONE"
+        }
+      ],
+      "timestamp": "2025-06-11T18:00:39.194Z",
+      "analysis": {
+        "postNumber": 4,
+        "prompt": "Comment on strategic thinking",
+        "response": "Strategy is the art of seeing what others miss—then striking where they are blind. Think not of plans, but of gaps in their armor. Hesitation is the only true miscalculation.",
+        "character": "Lady Macbeth",
+        "length": 174,
+        "wordCount": 30,
+        "hasEmoji": false,
+        "hasQuestionMark": false,
+        "hasExclamation": false,
+        "characterMarkers": [],
+        "timestamp": "2025-06-11T18:00:39.195Z"
+      }
+    },
+    {
+      "postNumber": 5,
+      "success": true,
+      "duration": 7399,
+      "statusCode": 200,
+      "response": [
+        {
+          "user": "Lady Macbeth",
+          "text": "Greatness demands payment in blood before it yields crowns. Count the cost not in what is lost, but in what remains unclaimed by weaker hands. The price is always less than the prize—if thou hast the stomach for it.",
+          "action": "NONE"
+        }
+      ],
+      "timestamp": "2025-06-11T18:00:49.597Z",
+      "analysis": {
+        "postNumber": 5,
+        "prompt": "Analyze the cost of greatness",
+        "response": "Greatness demands payment in blood before it yields crowns. Count the cost not in what is lost, but in what remains unclaimed by weaker hands. The price is always less than the prize—if thou hast the stomach for it.",
+        "character": "Lady Macbeth",
+        "length": 215,
+        "wordCount": 39,
+        "hasEmoji": false,
+        "hasQuestionMark": false,
+        "hasExclamation": false,
+        "characterMarkers": [
+          "archaic_english",
+          "intensity_words"
+        ],
+        "timestamp": "2025-06-11T18:00:49.597Z"
+      }
+    }
+  ]
+}
